@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,4 +49,14 @@ Route::get('/addresses/{id}',[AddressController::class, 'show'])
 Route::patch('/addresses/{id}',[AddressController::class, 'update'])
     ->middleware('auth:sanctum');
 Route::delete('/addresses/{id}',[AddressController::class, 'delete'])
+    ->middleware('auth:sanctum');
+
+//Rotas para Categoria
+Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/categories/{id}', [CategoryController::class, 'show']);
+Route::post('/categories', [CategoryController::class, 'store'])
+    ->middleware('auth:sanctum');
+Route::patch('/categories/{id}', [CategoryController::class, 'update'])
+    ->middleware('auth:sanctum');
+Route::delete('/categories/{id}', [CategoryController::class, 'delete'])
     ->middleware('auth:sanctum');
