@@ -26,19 +26,12 @@ class AddressService{
 
     public function updateAddress($id,$data)
     {
-        $address = $this->getAddressById($id);
-        $this->addressRepository->updateAddress($address,$data);
-        return response()->json([
-            'message' => 'Endereço atualizado com sucesso!'
-        ]);
+        $address = $this->addressRepository->getAddressById($id);
+        return $this->addressRepository->updateAddress($address,$data);
     }
 
     public function deleteAddress($id)
     {
-        $address = $this->getAddressById($id);
-        $this->addressRepository->deleteAddress($address);
-        return response()->json([
-            'message' => 'Endereço deletado com sucesso!'
-        ]);
+         return $this->addressRepository->deleteAddress($id);
     }
 }
