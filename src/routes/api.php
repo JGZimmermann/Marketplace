@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CouponController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,3 +76,12 @@ Route::patch('/products/{id}/stock', [ProductController::class, 'updateStock'])
 Route::delete('/products/{id}', [ProductController::class, 'delete'])
     ->middleware('auth:sanctum');
 
+//Rotas para Cupons
+Route::get('/coupons', [CouponController::class, 'index']);
+Route::get('/coupons/{id}', [CouponController::class, 'show']);
+Route::post('/coupons', [CouponController::class, 'store'])
+    ->middleware('auth:sanctum');
+Route::patch('/coupons/{id}', [CouponController::class, 'update'])
+    ->middleware('auth:sanctum');
+Route::delete('/coupons/{id}', [CouponController::class, 'delete'])
+    ->middleware('auth:sanctum');
