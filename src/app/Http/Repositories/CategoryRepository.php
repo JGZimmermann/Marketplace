@@ -3,7 +3,6 @@
 namespace App\Http\Repositories;
 
 use App\Models\Category;
-use Illuminate\Support\Facades\Auth;
 
 class CategoryRepository{
     public function getAllCategories()
@@ -18,45 +17,16 @@ class CategoryRepository{
 
     public function storeCategory($data)
     {
-        $user = Auth::user();
-        if($user->role == "CLIENT"){
-            return response()->json([
-                'message' => 'Usuário sem permissão para a ação!'
-            ]);
-        } else {
-            return response()->json(Category::create($data));
-        }
+        return Category::create($data);
     }
 
-    public function updateCategory($id,$data)
+    public function updateCategory(Category $category,$data)
     {
-        $category = $this->getCategoryById($id);
-        $user = Auth::user();
-        if($user->role == "CLIENT"){
-            return response()->json([
-                'message' => 'Usuário sem permissão para a ação!'
-            ]);
-        } else {
-            $category->update($data);
-            return response()->json([
-                'message' => 'Categoria atualizada com sucesso!'
-            ]);
-        }
+        return $category->update($data);
     }
 
-    public function deleteCategory($id)
+    public function deleteCategory(Category $category)
     {
-        $category = $this->getCategoryById($id);
-        $user = Auth::user();
-        if($user->role == "CLIENT"){
-            return response()->json([
-                'message' => 'Usuário sem permissão para a ação!'
-            ]);
-        } else {
-            $category->delete();
-            return response()->json([
-                'message' => 'Categoria excluída com sucesso!'
-            ]);
-        }
+        return $category->delete();
     }
 }
