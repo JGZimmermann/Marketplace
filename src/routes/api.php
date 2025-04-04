@@ -7,6 +7,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,4 +85,10 @@ Route::post('/coupons', [CouponController::class, 'store'])
 Route::patch('/coupons/{id}', [CouponController::class, 'update'])
     ->middleware('auth:sanctum');
 Route::delete('/coupons/{id}', [CouponController::class, 'delete'])
+    ->middleware('auth:sanctum');
+
+//Rotas para Carrinho
+Route::get('/cart', [CartController::class, 'index'])
+    ->middleware('auth:sanctum');
+Route::post('/cart',[CartController::class, 'store'])
     ->middleware('auth:sanctum');
