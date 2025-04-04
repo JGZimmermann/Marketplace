@@ -5,18 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Coupon extends Model
+class Cart extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'code',
-        'startDate',
-        'endDate',
-        'discountPercentage'
+        'user_id'
     ];
 
-    public function order()
+    public function user()
     {
-        return $this->belongsToMany(Order::class);
+        return $this->belongsTo(User::class);
     }
 }
