@@ -8,6 +8,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CartItemController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,4 +93,28 @@ Route::delete('/coupons/{id}', [CouponController::class, 'delete'])
 Route::get('/cart', [CartController::class, 'index'])
     ->middleware('auth:sanctum');
 Route::post('/cart',[CartController::class, 'store'])
+    ->middleware('auth:sanctum');
+
+//Rotas para Item do Carrinho
+Route::get('/cart/items', [CartItemController::class, 'index'])
+    ->middleware('auth:sanctum');
+Route::post('/cart/items', [CartItemController::class, 'store'])
+    ->middleware('auth:sanctum');
+Route::patch('/cart/items', [CartItemController::class, 'update'])
+    ->middleware('auth:sanctum');
+Route::delete('/cart/items', [CartItemController::class, 'delete'])
+    ->middleware('auth:sanctum');
+Route::delete('/cart/clear', [CartItemController::class, 'clear'])
+    ->middleware('auth:sanctum');
+
+//Rotas para Pedidos
+Route::get('/orders', [OrderController::class, 'index'])
+    ->middleware('auth:sanctum');
+Route::get('/orders/{id}', [OrderController::class, 'show'])
+    ->middleware('auth:sanctum');
+Route::post('/orders', [OrderController::class, 'store'])
+    ->middleware('auth:sanctum');
+Route::patch('/orders/{id}', [OrderController::class, 'update'])
+    ->middleware('auth:sanctum');
+Route::delete('/orders/{id}', [OrderController::class, 'cancel'])
     ->middleware('auth:sanctum');

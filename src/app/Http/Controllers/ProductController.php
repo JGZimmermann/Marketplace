@@ -28,7 +28,8 @@ class ProductController extends Controller
 
     public function delete($id)
     {
-        return $this->productService->deleteProduct($id);
+        $this->productService->deleteProduct($id);
+        return response(204);
     }
 
     public function store(StoreProductRequest $request)
