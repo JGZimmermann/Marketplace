@@ -23,7 +23,7 @@ class CouponService{
     public function storeCoupon($data)
     {
         if(Auth::user()->role == 'ADMIN'){
-            return response()->json($this->couponRepository->storeCoupon($data));
+            return response(201)->json($this->couponRepository->storeCoupon($data));
         } else{
             return response()->json([
                 'message' => 'Usuário não possui autorização para realizar essa ação'
@@ -49,7 +49,7 @@ class CouponService{
     {
         if(Auth::user()->role == 'ADMIN'){
             $this->couponRepository->deleteCoupon($this->getCouponById($id));
-            return response()->json([
+            return response(204)->json([
                 'message' => 'Cupom excluído com sucesso!'
             ]);
         } else{

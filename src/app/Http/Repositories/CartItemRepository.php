@@ -3,15 +3,19 @@
 namespace App\Http\Repositories;
 
 use App\Models\CartItem;
-use App\Http\Repositories\CartRepository;
 
 class CartItemRepository{
-    public function __construct(protected CartRepository $cartRepository)
+    public function __construct(protected CartRepository $cartRepository, protected ProductRepository $productRepository)
     {
     }
     public function getCartItems()
     {
-        return CartItem::all()->where('cart_id',$this->cartRepository->getCart()->id);
+        return CartItem::all()->where('cart_id',$this->cartRepository->getCart()->first()->id);
+    }
+
+    public function getCartItemById($id)
+    {
+        return CartItem::all()->where('product_id', $id)->first();
     }
 
     public function storeItemInCart($data)
@@ -19,8 +23,18 @@ class CartItemRepository{
         return CartItem::create([
             'product_id' => $data['product_id'],
             'quantity' => $data['quantity'],
-            'unit_price' => $data['unit_price'],
-            'cart_id' => $this->cartRepository->getCart()->id
+            'unitPrice' => $this->productRepository->getProductById($data['product_id'])->price,
+            'cart_id' => $this->cartRepository->getCart()->first()->id
         ]);
+    }
+
+    public function updateQuantity($data, CartItem $cartItem)
+    {
+        return $cartItem->update($data);
+    }
+
+    public function removeItemFromCart(CartItem $cartItem)
+    {
+        return $cartItem->delete();
     }
 }
