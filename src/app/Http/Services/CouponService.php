@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Http\Repositories\CouponRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class CouponService{
@@ -23,7 +24,7 @@ class CouponService{
     public function storeCoupon($data)
     {
         if(Auth::user()->role == 'ADMIN'){
-            return response(201)->json($this->couponRepository->storeCoupon($data));
+            return response()->json($this->couponRepository->storeCoupon($data), 201);
         } else{
             return response()->json([
                 'message' => 'Usuário não possui autorização para realizar essa ação'
@@ -49,13 +50,27 @@ class CouponService{
     {
         if(Auth::user()->role == 'ADMIN'){
             $this->couponRepository->deleteCoupon($this->getCouponById($id));
-            return response(204)->json([
+            return response()->json([
                 'message' => 'Cupom excluído com sucesso!'
-            ]);
+            ], 204);
         } else{
             return response()->json([
                 'message' => 'Usuário não possui autorização para realizar essa ação'
             ]);
+        }
+    }
+
+    public function verifyCouponDate($id)
+    {
+        $coupon = $this->couponRepository->getCouponById($id);
+        $startDate = Carbon::parse($coupon->StartDate);
+        $endDate = Carbon::parse($coupon->endDate);
+        $currentDate = Carbon::now();
+
+        if($currentDate->between($startDate,$endDate)){
+            return $coupon->discountPercentage;
+        } else {
+            return false;
         }
     }
 }

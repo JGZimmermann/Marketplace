@@ -20,22 +20,21 @@ class CartItemController extends Controller
 
     public function store(StoreCartItemRequest $request)
     {
-        return response(204)->json($this->cartItemService->storeItemInCart($request->validated()));
+        return response()->json($this->cartItemService->storeItemInCart($request->validated()), 204);
     }
 
     public function update(UpdateCartItemRequest $request)
     {
-        return response(204)->json($this->cartItemService->updateQuantity($request->validated()));
+        return response()->json($this->cartItemService->updateQuantity($request->validated()), 204);
     }
 
     public function delete(DeleteCartItemRequest $request)
     {
-        return response(204)->json($this->cartItemService->removeItemFromCart($request->validated()));
+        return response()->json($this->cartItemService->removeItemFromCart($request->validated()), 204);
     }
 
     public function clear()
     {
-        $this->cartItemService->clearCart();
-        return response(204);
+        return $this->cartItemService->clearCart();;
     }
 }

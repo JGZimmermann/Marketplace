@@ -20,15 +20,15 @@ class OrderRepository {
         return Order::findOrFail($id);
     }
 
-    public function storeOrder($data)
+    public function storeOrder($data, $coupon, $totalAmount)
     {
         return Order::create([
             'user_id' => Auth::id(),
             'address_id' => $data['address_id'],
-            'coupon_id' => $data['coupon_id'],
+            'coupon_id' => $coupon,
             'orderDate' => date('Y-m-d H:i:s'),
             'status' => 'PENDING',
-            'totalAmount' => $this->cartItemService->totalAmount()
+            'totalAmount' => $totalAmount
         ]);
     }
 
