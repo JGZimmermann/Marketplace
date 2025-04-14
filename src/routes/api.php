@@ -10,6 +10,7 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\DiscountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -118,3 +119,13 @@ Route::patch('/orders/{id}', [OrderController::class, 'update'])
     ->middleware('auth:sanctum');
 Route::delete('/orders/{id}', [OrderController::class, 'cancel'])
     ->middleware('auth:sanctum');
+
+//Rotas para Descontos
+Route::get('/discounts', [DiscountController::class, 'index']);
+Route::get('/discount/{id}', [DiscountController::class, 'show']);
+Route::post('/discounts', [DiscountController::class, 'store'])
+    ->middleware('auth:sanctum', 'check.role:ADMIN');
+Route::patch('/discounts/{id}', [DiscountController::class, 'update'])
+    ->middleware('auth:sanctum', 'check.role:ADMIN');
+Route::delete('/discounts/{id}', [DiscountController::class, 'delete'])
+    ->middleware('auth:sanctum', 'check.role:ADMIN');

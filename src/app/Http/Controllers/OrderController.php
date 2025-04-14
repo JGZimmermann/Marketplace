@@ -24,7 +24,7 @@ class OrderController extends Controller
 
     public function store(StoreOrderRequest $request)
     {
-        return response(201)->json($this->orderService->storeOrder($request->validated()));
+        return response()->json($this->orderService->storeOrder($request->validated()), 201);
     }
 
     public function update(UpdateOrderRequest $request ,$id)
@@ -34,6 +34,6 @@ class OrderController extends Controller
 
     public function cancel($id)
     {
-        return response(204)->json($this->orderService->cancelOrder($id));
+        return response()->json($this->orderService->cancelOrder($id), 204);
     }
 }

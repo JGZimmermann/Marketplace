@@ -6,7 +6,7 @@ use App\Http\Repositories\OrderRepository;
 use Illuminate\Support\Facades\Auth;
 
 class OrderService{
-    public function __construct(protected OrderRepository $orderRepository, protected OrderItemService $orderItemService, protected CartItemService $cartItemService, protected ProductService $productService)
+    public function __construct(protected OrderRepository $orderRepository, protected OrderItemService $orderItemService, protected CartItemService $cartItemService, protected ProductService $productService, protected CouponService $couponService)
     {
     }
 
@@ -29,12 +29,28 @@ class OrderService{
 
     public function storeOrder($data)
     {
-        $order = $this->orderRepository->storeOrder($data);
-        $this->orderItemService->storeOrderItem($order->id);
-        $orderItems = $this->orderItemService->getAllOrderItemsByOrder($order->id);
-        $this->decreaseStock($orderItems);
-        $this->cartItemService->clearCart();
-        return $order;
+        if($this->cartItemService->totalAmount() > 0){
+            if(isset($data['coupon_id'])){
+                if($this->couponService->verifyCouponDate($data['coupon_id'])){
+                    $totalAmount = $this->cartItemService->totalAmount() - (($this->cartItemService->totalAmount() * $this->couponService->verifyCouponDate($data['coupon_id'])/100));
+                    $order = $this->orderRepository->storeOrder($data, $data['coupon_id'],$totalAmount);
+                } else{
+                    $order = $this->orderRepository->storeOrder($data, $data['coupon_id'], $this->cartItemService->totalAmount());
+                }
+            } else{
+                $order = $this->orderRepository->storeOrder($data, null, $this->cartItemService->totalAmount());
+            }
+            $this->orderItemService->storeOrderItem($order->id);
+            $orderItems = $this->orderItemService->getAllOrderItemsByOrder($order->id);
+            $this->decreaseStock($orderItems);
+            $this->cartItemService->clearCart();
+            return $order;
+        }
+        else {
+            return [
+                "message" => "Carrinho sem itens, adicione algum item para continuar!"
+            ];
+        }
     }
 
     public function decreaseStock($orderItems)

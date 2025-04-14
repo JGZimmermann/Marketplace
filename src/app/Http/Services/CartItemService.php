@@ -6,7 +6,7 @@ use App\Http\Repositories\CartItemRepository;
 use App\Http\Repositories\ProductRepository;
 
 class CartItemService{
-    public function __construct(protected CartItemRepository $cartItemRepository, protected ProductRepository $productRepository)
+    public function __construct(protected CartItemRepository $cartItemRepository, protected ProductRepository $productRepository, protected DiscountService $discountService)
     {
     }
 
@@ -70,6 +70,12 @@ class CartItemService{
         $total = 0;
         $items = $this->cartItemRepository->getCartItems();
         foreach ($items as $item){
+            $discounts = $this->discountService->getDiscountsByProduct($item->product_id);
+            foreach ($discounts as $discount){
+                if($this->discountService->verifyDiscount($discount->id)){
+                    $item->unitPrice = $item->unitPrice - (($item->unitPrice * $discount->discountPercentage)/100);
+                }
+            }
             $total += $item->unitPrice * $item->quantity;
         }
         return $total;
