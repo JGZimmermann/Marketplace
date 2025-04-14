@@ -21,9 +21,15 @@ class ProductRepository
         return Product::findOrFail($id);
     }
 
-    public function storeProduct($data)
+    public function storeProduct($data, $path)
     {
-        return Product::create($data);
+        return Product::create([
+            'name' => $data['name'],
+            'price' => $data['price'],
+            'stock' => $data['stock'],
+            'category_id' => $data['category_id'],
+            'image_url' => $path
+        ]);
     }
 
     public function updateProduct(Product $product,$data)

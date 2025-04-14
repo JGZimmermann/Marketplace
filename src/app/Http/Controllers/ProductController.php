@@ -34,7 +34,8 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request)
     {
-        return $this->productService->storeProduct($request->validated());
+        $path = $request->file('image_url')->store('photos','public');
+        return $this->productService->storeProduct($request->validated(),asset('storage/' . $path));
     }
 
     public function update(UpdateProductRequest $request, $id)

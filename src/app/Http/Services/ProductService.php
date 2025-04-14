@@ -25,14 +25,14 @@ class ProductService{
         return $this->productRepository->getProductById($id);
     }
 
-    public function storeProduct($data)
+    public function storeProduct($data,$path)
     {
         if(Auth::user()->role == 'CLIENT'){
             return response()->json([
                 'message' => 'Acesso não autorizado!'
             ]);
         } else {
-            return response()->json($this->productRepository->storeProduct($data));
+            return response()->json($this->productRepository->storeProduct($data,$path));
         }
     }
 
