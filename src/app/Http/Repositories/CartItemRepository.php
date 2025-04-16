@@ -15,7 +15,7 @@ class CartItemRepository{
 
     public function getCartItemById($id)
     {
-        return CartItem::all()->where('product_id', $id)->first();
+        return CartItem::all()->where('cart_id',$this->cartRepository->getCart()->first()->id)->where('product_id', $id)->first();
     }
 
     public function storeItemInCart($data)

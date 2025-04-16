@@ -27,42 +27,24 @@ class ProductService{
 
     public function storeProduct($data,$path)
     {
-        if(Auth::user()->role == 'CLIENT'){
-            return response()->json([
-                'message' => 'Acesso não autorizado!'
-            ]);
-        } else {
-            return response()->json($this->productRepository->storeProduct($data,$path));
-        }
+        return response()->json($this->productRepository->storeProduct($data,$path));
     }
 
     public function updateProduct($data, $id)
     {
         $product = $this->getProductById($id);
-        if(Auth::user()->role == 'CLIENT'){
-            return response()->json([
-                'message' => 'Acesso não autorizado!'
-            ]);
-        } else {
-            $this->productRepository->updateProduct($product,$data);
-            return response()->json([
-                'message' => 'Produto atualizado com sucesso!'
-            ]);
-        }
+        $this->productRepository->updateProduct($product,$data);
+        return response()->json([
+            'message' => 'Produto atualizado com sucesso!'
+        ]);
     }
 
     public function deleteProduct($id)
     {
-        if(Auth::user()->role == 'CLIENT'){
-            return response()->json([
-                'message' => 'Acesso não autorizado!'
-            ]);
-        } else {
-            $product = $this->getProductById($id);
-            $this->productRepository->deleteProduct($product);
-            return response()->json([
-                'message' => 'Produto excluído com sucesso!'
-            ]);
-        }
+        $product = $this->getProductById($id);
+        $this->productRepository->deleteProduct($product);
+        return response()->json([
+            'message' => 'Produto excluído com sucesso!'
+        ]);
     }
 }
