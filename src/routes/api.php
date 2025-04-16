@@ -43,7 +43,7 @@ Route::delete('/users/me', [UserController::class, 'delete'])
 
 //Rota para criar moderador
 Route::post('/users/create-moderator', [UserController::class, 'registerModerator'])
-    ->middleware('auth:sanctum');
+    ->middleware('auth:sanctum', 'check.user.role.admin');
 
 //Rotas para Endereço
 Route::get('/addresses', [AddressController::class, 'showByUser'])
@@ -51,44 +51,44 @@ Route::get('/addresses', [AddressController::class, 'showByUser'])
 Route::post('/addresses',[AddressController::class, 'store'])
     ->middleware('auth:sanctum');
 Route::get('/addresses/{id}',[AddressController::class, 'show'])
-    ->middleware('auth:sanctum');
+    ->middleware('auth:sanctum', 'check.user.role.address');
 Route::patch('/addresses/{id}',[AddressController::class, 'update'])
-    ->middleware('auth:sanctum');
+    ->middleware('auth:sanctum', 'check.user.role.address');
 Route::delete('/addresses/{id}',[AddressController::class, 'delete'])
-    ->middleware('auth:sanctum');
+    ->middleware('auth:sanctum', 'check.user.role.address');
 
 //Rotas para Categoria
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/categories/{id}', [CategoryController::class, 'show']);
 Route::post('/categories', [CategoryController::class, 'store'])
-    ->middleware('auth:sanctum');
+    ->middleware('auth:sanctum', 'check.user.role');
 Route::patch('/categories/{id}', [CategoryController::class, 'update'])
-    ->middleware('auth:sanctum');
+    ->middleware('auth:sanctum', 'check.user.role');
 Route::delete('/categories/{id}', [CategoryController::class, 'delete'])
-    ->middleware('auth:sanctum');
+    ->middleware('auth:sanctum', 'check.user.role');
 
 //Rotas para Produtos
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/category/{id}', [ProductController::class, 'showByCategory']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::post('/products', [ProductController::class, 'store'])
-    ->middleware('auth:sanctum');
+    ->middleware('auth:sanctum', 'check.user.role');
 Route::patch('/products/{id}', [ProductController::class, 'update'])
-    ->middleware('auth:sanctum');
+    ->middleware('auth:sanctum', 'check.user.role');
 Route::patch('/products/{id}/stock', [ProductController::class, 'updateStock'])
-    ->middleware('auth:sanctum');
+    ->middleware('auth:sanctum', 'check.user.role');
 Route::delete('/products/{id}', [ProductController::class, 'delete'])
-    ->middleware('auth:sanctum');
+    ->middleware('auth:sanctum', 'check.user.role');
 
 //Rotas para Cupons
 Route::get('/coupons', [CouponController::class, 'index']);
 Route::get('/coupons/{id}', [CouponController::class, 'show']);
 Route::post('/coupons', [CouponController::class, 'store'])
-    ->middleware('auth:sanctum');
+    ->middleware('auth:sanctum', 'check.user.role' );
 Route::patch('/coupons/{id}', [CouponController::class, 'update'])
-    ->middleware('auth:sanctum');
+    ->middleware('auth:sanctum', 'check.user.role' );
 Route::delete('/coupons/{id}', [CouponController::class, 'delete'])
-    ->middleware('auth:sanctum');
+    ->middleware('auth:sanctum', 'check.user.role');
 
 //Rotas para Carrinho
 Route::get('/cart', [CartController::class, 'index'])
@@ -112,20 +112,20 @@ Route::delete('/cart/clear', [CartItemController::class, 'clear'])
 Route::get('/orders', [OrderController::class, 'index'])
     ->middleware('auth:sanctum');
 Route::get('/orders/{id}', [OrderController::class, 'show'])
-    ->middleware('auth:sanctum');
+    ->middleware('auth:sanctum', 'check.user.role.order');
 Route::post('/orders', [OrderController::class, 'store'])
     ->middleware('auth:sanctum');
 Route::patch('/orders/{id}', [OrderController::class, 'update'])
-    ->middleware('auth:sanctum');
+    ->middleware('auth:sanctum', 'check.user.role.order');
 Route::delete('/orders/{id}', [OrderController::class, 'cancel'])
-    ->middleware('auth:sanctum');
+    ->middleware('auth:sanctum', 'check.user.role.order');
 
 //Rotas para Descontos
 Route::get('/discounts', [DiscountController::class, 'index']);
-Route::get('/discount/{id}', [DiscountController::class, 'show']);
+Route::get('/discounts/{id}', [DiscountController::class, 'show']);
 Route::post('/discounts', [DiscountController::class, 'store'])
-    ->middleware('auth:sanctum', 'check.role:ADMIN');
+    ->middleware('auth:sanctum', 'check.user.role.discount');
 Route::patch('/discounts/{id}', [DiscountController::class, 'update'])
-    ->middleware('auth:sanctum', 'check.role:ADMIN');
+    ->middleware('auth:sanctum', 'check.user.role.discount');
 Route::delete('/discounts/{id}', [DiscountController::class, 'delete'])
-    ->middleware('auth:sanctum', 'check.role:ADMIN');
+    ->middleware('auth:sanctum', 'check.user.role.discount');

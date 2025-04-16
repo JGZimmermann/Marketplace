@@ -24,7 +24,7 @@ class CouponController extends Controller
 
     public function store(StoreCouponRequest $request)
     {
-        return $this->couponService->storeCoupon($request->validated());
+        return response()->json($this->couponService->storeCoupon($request->validated()),201);
     }
 
     public function update(UpdateCouponRequest $request, $id)

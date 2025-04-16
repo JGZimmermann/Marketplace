@@ -4,7 +4,6 @@ namespace App\Http\Services;
 
 use App\Http\Repositories\CouponRepository;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 
 class CouponService{
     public function __construct(protected CouponRepository $couponRepository)
@@ -23,41 +22,23 @@ class CouponService{
 
     public function storeCoupon($data)
     {
-        if(Auth::user()->role == 'ADMIN'){
-            return response()->json($this->couponRepository->storeCoupon($data), 201);
-        } else{
-            return response()->json([
-                'message' => 'Usuário não possui autorização para realizar essa ação'
-            ]);
-        }
+        return $this->couponRepository->storeCoupon($data);
     }
 
     public function updateCoupon($data, $id)
     {
-        if(Auth::user()->role == 'ADMIN'){
-            $this->couponRepository->updateCoupon($this->getCouponById($id),$data);
-            return response()->json([
-                'message' => 'Cupom atualizado com sucesso!'
-            ]);
-        } else{
-            return response()->json([
-                'message' => 'Usuário não possui autorização para realizar essa ação'
-            ]);
-        }
+        $this->couponRepository->updateCoupon($this->getCouponById($id),$data);
+        return response()->json([
+            'message' => 'Cupom atualizado com sucesso!'
+        ]);
     }
 
     public function deleteCoupon($id)
     {
-        if(Auth::user()->role == 'ADMIN'){
-            $this->couponRepository->deleteCoupon($this->getCouponById($id));
-            return response()->json([
-                'message' => 'Cupom excluído com sucesso!'
-            ], 204);
-        } else{
-            return response()->json([
-                'message' => 'Usuário não possui autorização para realizar essa ação'
-            ]);
-        }
+        $this->couponRepository->deleteCoupon($this->getCouponById($id));
+        return response()->json([
+            'message' => 'Cupom excluído com sucesso!'
+        ], 204);
     }
 
     public function verifyCouponDate($id)

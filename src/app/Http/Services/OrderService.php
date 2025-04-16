@@ -17,19 +17,12 @@ class OrderService{
 
     public function findOrderById($id)
     {
-        $order = $this->orderRepository->findOrderById($id);
-        if($order->user_id == Auth::id() || Auth::user()->role == 'ADMIN' || Auth::user()->role == 'MODERATOR'){
-            return $order;
-        } else {
-            return [
-                'message' => 'Usuário sem acesso!'
-            ];
-        }
+        return $this->orderRepository->findOrderById($id);
     }
 
     public function storeOrder($data)
     {
-        if($this->cartItemService->totalAmount() > 0){
+        if(sizeof($this->cartItemService->getCartItem()) > 0){
             if(isset($data['coupon_id'])){
                 if($this->couponService->verifyCouponDate($data['coupon_id'])){
                     $totalAmount = $this->cartItemService->totalAmount() - (($this->cartItemService->totalAmount() * $this->couponService->verifyCouponDate($data['coupon_id'])/100));
@@ -78,28 +71,16 @@ class OrderService{
     public function cancelOrder($id)
     {
         $order = $this->orderRepository->findOrderById($id);
-        if($order->user_id == Auth::id() || Auth::user()->role == 'ADMIN' || Auth::user()->role == 'MODERATOR'){
-            $orderItems = $this->orderItemService->getAllOrderItemsByOrder($order->id);
-            $this->addStock($orderItems);
-            return $this->orderRepository->updateOrder([
-                'status' => 'CANCELED'
-            ], $order);
-        } else {
-            return [
-                'message' => 'Usuário sem acesso!'
-            ];
-        }
+        $orderItems = $this->orderItemService->getAllOrderItemsByOrder($order->id);
+        $this->addStock($orderItems);
+        return $this->orderRepository->updateOrder([
+            'status' => 'CANCELED'
+        ], $order);
     }
 
     public function updateOrder($data, $id)
     {
         $order = $this->orderRepository->findOrderById($id);
-        if(Auth::user()->role == 'ADMIN' || Auth::user()->role == 'MODERATOR'){
-            return $this->orderRepository->updateOrder($data, $order);
-        } else {
-            return [
-                'message' => 'Usuário sem acesso!'
-            ];
-        }
+        return $this->orderRepository->updateOrder($data, $order);
     }
 }
