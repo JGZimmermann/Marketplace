@@ -19,14 +19,7 @@ class UserService
 
     public function storeModerator($data)
     {
-        $user = $this->getLoggedUser();
-        if($user->role != "ADMIN"){
-            return response()->json([
-                'message' => 'Precisa ser admin para realizar essa operação!'
-            ]);
-        } else {
-            return $this->userRepository->storeModerator($data);
-        }
+        return $this->userRepository->storeModerator($data);
     }
 
     public function getUserById($id)
@@ -38,7 +31,7 @@ class UserService
     {
         $id = Auth::id();
         $user = $this->getUserById($id);
-        if($data['password'] != null){
+        if(isset($data['password'])){
             $data = $this->hashPassword($data);
         }
         $this->userRepository->updateUser($user, $data);
@@ -59,10 +52,10 @@ class UserService
         if(!$user || !Hash::check($data['password'] , $user->password)){
             return response()->json([
                 'message' => 'Credenciais Inválidas!'
-            ]);
+            ],422);
         }
         return response()->json([
-            'token' => $user->createToken($user->name.'-AuthToken')->plainTextToken
+            'token' => $user->createToken($user->name.'-AuthToken')->plainTextToken, $user
         ]);
     }
 
@@ -87,6 +80,6 @@ class UserService
         $user->delete();
         return response()->json([
             'message' => 'Usuário deletado com sucesso!'
-        ]);
+        ],204);
     }
 }

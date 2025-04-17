@@ -14,17 +14,17 @@ class AddressController extends Controller
 
     public function show($id)
     {
-        return $this->addressService->getAddressById($id);
+        return response()->json($this->addressService->getAddressById($id));
     }
 
     public function store(StoreAddressRequest $request)
     {
-        return $this->addressService->storeAddress($request);
+        return response()->json($this->addressService->storeAddress($request),201);
     }
 
     public function showByUser()
     {
-        return $this->addressService->getAddressByUser();
+        return response()->json($this->addressService->getAddressByUser());
     }
 
     public function update(UpdateAddressRequest $request,$id)
