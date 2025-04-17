@@ -15,12 +15,12 @@ class UserController extends Controller
 
     public function register(StoreUserRequest $request)
     {
-        return $this->userService->storeUser($request->validated());
+        return response()->json($this->userService->storeUser($request->validated()), 201);
     }
 
     public function registerModerator(StoreUserRequest $request)
     {
-        return $this->userService->storeModerator($request->validated());
+        return response()->json($this->userService->storeModerator($request->validated()), 201);
     }
 
     public function login(UserLoginRequest $request)

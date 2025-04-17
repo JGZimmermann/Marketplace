@@ -40,6 +40,6 @@ class AddressService{
         $this->addressRepository->deleteAddress($address);
         return response()->json([
             'message' => 'Endereço deletado com sucesso!'
-        ]);
+        ],204);
     }
 }
