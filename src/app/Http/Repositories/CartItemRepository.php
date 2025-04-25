@@ -10,13 +10,14 @@ class CartItemRepository{
     }
     public function getCartItems()
     {
-        return CartItem::all()->where('cart_id',$this->cartRepository->getCart()->first()->id);
+        return CartItem::all()->where('cart_id',$this->cartRepository->getCart()->id);
     }
 
     public function getCartItemById($id)
     {
-        return CartItem::all()->where('cart_id',$this->cartRepository->getCart()->first()->id)->where('product_id', $id)->first();
+        return CartItem::all()->where('cart_id',$this->cartRepository->getCart()->id)->where('product_id', $id)->first();
     }
+
 
     public function storeItemInCart($data)
     {
@@ -24,7 +25,7 @@ class CartItemRepository{
             'product_id' => $data['product_id'],
             'quantity' => $data['quantity'],
             'unitPrice' => $this->productRepository->getProductById($data['product_id'])->price,
-            'cart_id' => $this->cartRepository->getCart()->first()->id
+            'cart_id' => $this->cartRepository->getCart()->id
         ]);
     }
 

@@ -12,11 +12,11 @@ class CartController extends Controller
 
     public function index()
     {
-        return $this->cartService->getCart();
+        return response()->json($this->cartService->getCart());
     }
 
     public function store()
     {
-        return $this->cartService->storeCart();
+        return response()->json($this->cartService->storeCart());
     }
 }

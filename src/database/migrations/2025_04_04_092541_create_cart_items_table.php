@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId("cart_id")
                 ->constrained();
             $table->foreignId("product_id")
-                ->unique()
                 ->constrained();
             $table->integer("quantity");
             $table->decimal("unitPrice");

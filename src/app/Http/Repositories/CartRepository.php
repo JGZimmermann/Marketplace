@@ -15,12 +15,6 @@ class CartRepository{
 
     public function getCart()
     {
-        return Cart::all()->where('user_id', Auth::id());
+        return Cart::all()->where('user_id', Auth::id())->first();
     }
-
-    public function allCarts()
-    {
-        return Cart::all();
-    }
-
 }

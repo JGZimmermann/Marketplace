@@ -3,7 +3,6 @@
 namespace App\Http\Services;
 
 use App\Http\Repositories\ProductRepository;
-use Illuminate\Support\Facades\Auth;
 
 class ProductService{
     public function __construct(protected ProductRepository $productRepository)
@@ -27,24 +26,22 @@ class ProductService{
 
     public function storeProduct($data,$path)
     {
-        return response()->json($this->productRepository->storeProduct($data,$path));
+        return $this->productRepository->storeProduct($data,$path);
     }
 
     public function updateProduct($data, $id)
     {
         $product = $this->getProductById($id);
         $this->productRepository->updateProduct($product,$data);
-        return response()->json([
-            'message' => 'Produto atualizado com sucesso!'
-        ]);
+        return $this->getProductById($id);
     }
 
     public function deleteProduct($id)
     {
         $product = $this->getProductById($id);
         $this->productRepository->deleteProduct($product);
-        return response()->json([
+        return [
             'message' => 'Produto excluído com sucesso!'
-        ]);
+        ];
     }
 }

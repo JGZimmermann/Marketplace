@@ -28,17 +28,15 @@ class CouponService{
     public function updateCoupon($data, $id)
     {
         $this->couponRepository->updateCoupon($this->getCouponById($id),$data);
-        return response()->json([
-            'message' => 'Cupom atualizado com sucesso!'
-        ]);
+        return $this->getCouponById($id);
     }
 
     public function deleteCoupon($id)
     {
         $this->couponRepository->deleteCoupon($this->getCouponById($id));
-        return response()->json([
+        return [
             'message' => 'Cupom excluído com sucesso!'
-        ], 204);
+        ];
     }
 
     public function verifyCouponDate($id)

@@ -81,6 +81,7 @@ class OrderService{
     public function updateOrder($data, $id)
     {
         $order = $this->orderRepository->findOrderById($id);
-        return $this->orderRepository->updateOrder($data, $order);
+        $this->orderRepository->updateOrder($data, $order);
+        return $this->orderRepository->findOrderById($id);
     }
 }

@@ -17,12 +17,18 @@ class CartItemService{
 
     public function storeItemInCart($data)
     {
-        if($this->verifyStock($data)){
-            return $this->cartItemRepository->storeItemInCart($data);
+        if($this->cartItemRepository->getCartItemById($data['product_id'])){
+            $quantity = $this->cartItemRepository->getCartItemById($data['product_id'])->quantity;
+            $data['quantity'] = $data['quantity'] + $quantity;
+            $this->updateQuantity($data);
         } else {
-            return [
-                'message' => 'Produto sem estoque'
-            ];
+            if ($this->verifyStock($data)) {
+                return $this->cartItemRepository->storeItemInCart($data);
+            } else {
+                return [
+                    'message' => 'Produto sem estoque'
+                ];
+            }
         }
     }
 
@@ -30,7 +36,8 @@ class CartItemService{
     {
         $cartItem = $this->cartItemRepository->getCartItemById($data['product_id']);
         if($this->verifyStock($data)){
-            return $this->cartItemRepository->updateQuantity($data,$cartItem);
+            $this->cartItemRepository->updateQuantity($data,$cartItem);
+            return $this->cartItemRepository->getCartItemById($data['product_id']);
         } else {
             return [
                 'message' => 'Produto sem estoque'
@@ -41,7 +48,10 @@ class CartItemService{
     public function removeItemFromCart($data)
     {
         $cartItem = $this->cartItemRepository->getCartItemById($data['product_id']);
-        return $this->cartItemRepository->removeItemFromCart($cartItem);
+        $this->cartItemRepository->removeItemFromCart($cartItem);
+        return [
+            'message' => 'Item removido!'
+        ];
     }
 
     public function clearCart()
@@ -50,9 +60,9 @@ class CartItemService{
         foreach ($cartItems as $cartItem){
             $this->cartItemRepository->removeItemFromCart($cartItem);
         }
-        return response()->json([
+        return [
             'message' => 'Carrinho limpo!'
-        ]);
+        ];
     }
 
     public function verifyStock($data)

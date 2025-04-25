@@ -14,7 +14,7 @@ class UpdateStockRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'stock' => 'required|integer'
+            'stock' => 'required|integer|min:0'
         ];
     }
 }

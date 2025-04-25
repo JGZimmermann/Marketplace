@@ -29,11 +29,11 @@ class AddressController extends Controller
 
     public function update(UpdateAddressRequest $request,$id)
     {
-        return $this->addressService->updateAddress($id,$request->validated());
+        return response()->json($this->addressService->updateAddress($id,$request->validated()));
     }
 
     public function delete($id)
     {
-        return $this->addressService->deleteAddress($id);
+        return response()->json($this->addressService->deleteAddress($id),204);
     }
 }

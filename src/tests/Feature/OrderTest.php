@@ -6,50 +6,46 @@ use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-class AddressTest extends TestCase
+class OrderTest extends TestCase
 {
-    /** @test */
-    public function create_address()
+    protected $user;
+
+    protected function setUp(): void
     {
-        $user = User::factory()->create([
+        parent::setUp();
+
+        $this->user = User::factory()->create([
             'password' => 'senha123'
         ]);
-
-        Sanctum::actingAs($user);
-
-        $request = [
-            'street' => 'Rua Teste da Silva',
-            'number' => 100,
-            'zip' => '000000-000',
-            'city' => 'Teste',
-            'state' => 'Teste',
-            'country' => 'Teste'
-        ];
-
-        $response = $this->postJson('/api/addresses', $request);
-
-        $response->assertStatus(201)
-            ->assertJson([
-                'city' => 'Teste'
-            ]);
     }
-
     /** @test */
-    public function get_address_by_user()
+    public function get_order()
     {
-        $user = User::factory()->create([
-            'password' => 'senha123'
-        ]);
+        Sanctum::actingAs($this->user);
 
-        Sanctum::actingAs($user);
-
-        $response = $this->getJson('/api/addresses');
-
+        $response = $this->getJson('/api/orders');
         $response->assertStatus(200);
     }
 
     /** @test */
-    public function get_address_by_id()
+    public function store_order()
+    {
+        $user = User::factory()->create([
+            'password' => 'senha123'
+        ]);
+
+        Sanctum::actingAs($user);
+        $request = [
+            'address_id' => 1,
+            'coupon_id' => 1
+        ];
+
+        $response = $this->postJson('/api/orders', $request);
+        $response->assertStatus(201);
+    }
+
+    /** @test */
+    public function get_order_by_id()
     {
         $user = User::factory()->create([
             'password' => 'senha123',
@@ -58,13 +54,12 @@ class AddressTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->getJson('/api/addresses/1');
-
+        $response = $this->getJson('/api/orders/1');
         $response->assertStatus(200);
     }
 
     /** @test */
-    public function update_address()
+    public function update_order()
     {
         $user = User::factory()->create([
             'password' => 'senha123',
@@ -74,16 +69,15 @@ class AddressTest extends TestCase
         Sanctum::actingAs($user);
 
         $request = [
-            'number' => 666
+            'status' => 'PROCESSING'
         ];
 
-        $response = $this->patchJson('/api/addresses/1', $request);
-
+        $response = $this->patchJson('/api/orders/1', $request);
         $response->assertStatus(200);
     }
 
     /** @test */
-    public function delete_address()
+    public function cancel_order()
     {
         $user = User::factory()->create([
             'password' => 'senha123',
@@ -93,36 +87,29 @@ class AddressTest extends TestCase
         Sanctum::actingAs($user);
 
 
-        $response = $this->delete('/api/addresses/1');
-
+        $response = $this->deleteJson('/api/orders/1');
         $response->assertStatus(204);
     }
 
     /** @test */
-    public function fail_to_create_address()
+    public function fail_to_store_order()
     {
         $user = User::factory()->create([
             'password' => 'senha123'
         ]);
 
         Sanctum::actingAs($user);
-
         $request = [
-            'street' => 0,
-            'number' => "100",
-            'zip' => 0,
-            'city' => 0.1,
-            'state' => 'Teste',
-            'country' => 'Teste'
+            'address_id' => "abc",
+            'coupon_id' => false
         ];
 
-        $response = $this->postJson('/api/addresses', $request);
-
+        $response = $this->postJson('/api/orders', $request);
         $response->assertStatus(422);
     }
 
     /** @test */
-    public function fail_to_find_address()
+    public function fail_to_get_order_by_id()
     {
         $user = User::factory()->create([
             'password' => 'senha123',
@@ -131,15 +118,26 @@ class AddressTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->getJson('/api/addresses/12');
-
+        $response = $this->getJson('/api/orders/1000');
         $response->assertStatus(404);
     }
 
     /** @test */
-    public function fail_to_update_address()
+    public function unauthorized_to_get_order_by_id()
     {
-        $this->create_address();
+        $user = User::factory()->create([
+            'password' => 'senha123'
+        ]);
+
+        Sanctum::actingAs($user);
+
+        $response = $this->getJson('/api/orders/1');
+        $response->assertStatus(403);
+    }
+
+    /** @test */
+    public function fail_to_update_order()
+    {
         $user = User::factory()->create([
             'password' => 'senha123',
             'role' => 'ADMIN'
@@ -148,26 +146,25 @@ class AddressTest extends TestCase
         Sanctum::actingAs($user);
 
         $request = [
-            'number' => "abc"
+            'status' => 123
         ];
 
-        $response = $this->patchJson('/api/addresses/2', $request);
-
+        $response = $this->patchJson('/api/orders/1', $request);
         $response->assertStatus(422);
     }
 
     /** @test */
-    public function fail_to_delete_address()
+    public function fail_to_cancel_order()
     {
         $user = User::factory()->create([
-            'password' => 'senha123'
+            'password' => 'senha123',
+            'role' => 'ADMIN'
         ]);
 
         Sanctum::actingAs($user);
 
 
-        $response = $this->delete('/api/addresses/2');
-
-        $response->assertStatus(403);
+        $response = $this->deleteJson('/api/orders/10000');
+        $response->assertStatus(404);
     }
 }

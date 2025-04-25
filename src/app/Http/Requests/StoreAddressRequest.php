@@ -15,7 +15,7 @@ class StoreAddressRequest extends FormRequest
     {
         return [
             'street' => 'required|string',
-            'number' => 'required|Integer',
+            'number' => 'required|Integer|min:1',
             'zip' => 'required|string',
             'city' => 'required|string',
             'state' => 'required|string',

@@ -30,21 +30,21 @@ class UserController extends Controller
 
     public function logout()
     {
-        return $this->userService->logoutUser();
+        return response()->json($this->userService->logoutUser());
     }
 
     public function loggedUser()
     {
-        return $this->userService->getLoggedUser();
+        return response()->json($this->userService->getLoggedUser());
     }
 
     public function update(UpdateUserRequest $request)
     {
-        return $this->userService->updateUser($request->validated());
+        return response()->json($this->userService->updateUser($request->validated()));
     }
 
     public function delete()
     {
-        return $this->userService->deleteUser();
+        return response()->json($this->userService->deleteUser());
     }
 }

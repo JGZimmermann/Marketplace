@@ -28,22 +28,22 @@ class ProductController extends Controller
 
     public function delete($id)
     {
-        return $this->productService->deleteProduct($id);
+        return response()->json($this->productService->deleteProduct($id),204);
     }
 
     public function store(StoreProductRequest $request)
     {
         $path = $request->file('image_url')->store('photos','public');
-        return $this->productService->storeProduct($request->validated(),asset('storage/' . $path));
+        return response()->json($this->productService->storeProduct($request->validated(),asset('storage/' . $path)),201);
     }
 
     public function update(UpdateProductRequest $request, $id)
     {
-        return $this->productService->updateProduct($request->validated(),$id);
+        return response()->json($this->productService->updateProduct($request->validated(),$id));
     }
 
     public function updateStock(UpdateStockRequest $request, $id)
     {
-        return $this->productService->updateProduct($request->validated(),$id);
+        return response()->json($this->productService->updateProduct($request->validated(),$id));
     }
 }

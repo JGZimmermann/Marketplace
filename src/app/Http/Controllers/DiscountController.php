@@ -34,6 +34,6 @@ class DiscountController extends Controller
 
     public function delete($id)
     {
-        return response()->json($this->discountService->deleteDiscount($id));
+        return response()->json($this->discountService->deleteDiscount($id),204);
     }
 }
