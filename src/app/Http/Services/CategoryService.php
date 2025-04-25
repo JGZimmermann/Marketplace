@@ -27,16 +27,14 @@ class CategoryService{
     public function updateCategory($id,$data)
     {
         $this->categoryRepository->updateCategory($this->getCategoryById($id),$data);
-        return response()->json([
-            'message' => 'Categoria atualizada com sucesso!'
-        ]);
+        return $this->getCategoryById($id);
     }
 
     public function deleteCategory($id)
     {
         $this->categoryRepository->deleteCategory($this->getCategoryById($id));
-        return response()->json([
+        return [
             'message' => 'Categoria excluída com sucesso!'
-        ]);
+        ];
     }
 }

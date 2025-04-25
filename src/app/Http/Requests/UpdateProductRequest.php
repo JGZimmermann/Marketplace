@@ -16,8 +16,9 @@ class UpdateProductRequest extends FormRequest
     {
         return [
             'name' => 'sometimes|string',
-            'price' => 'sometimes',
-            'category_id' => 'sometimes|integer'
+            'price' => 'sometimes|min:1',
+            'category_id' => 'sometimes|integer|min:1',
+            'stock' => 'prohibited'
         ];
     }
 }

@@ -15,7 +15,7 @@ class UpdateAddressRequest extends FormRequest
     {
         return [
             'street' => 'sometimes|string',
-            'number' => 'sometimes|Integer',
+            'number' => 'sometimes|integer|min:1',
             'zip' => 'sometimes|string',
             'city' => 'sometimes|string',
             'state' => 'sometimes|string',

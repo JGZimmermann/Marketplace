@@ -13,30 +13,24 @@ class CartService{
     public function storeCart()
     {
         if(!$this->verifyCart()){
-            return response()->json($this->cartRepository->storeCart());
+            return $this->cartRepository->storeCart();
         } else {
-            return response()->json([
+            return [
                 'message' => 'Usuário já possui um carrinho'
-            ]);
+            ];
         }
     }
 
     public function getCart()
     {
-        return response()->json($this->cartRepository->getCart());
+        return $this->cartRepository->getCart();
     }
 
     public function verifyCart()
     {
-        $carts = $this->cartRepository->allCarts();
-        $bool = false;
-        foreach ($carts as $cart){
-            if($cart->user_id == Auth::id()){
-                $bool = true;
-            } else{
-                $bool = false;
-            }
-        }
-        return $bool;
+        if($this->cartRepository->getCart())
+            return true;
+        else
+            return false;
     }
 }

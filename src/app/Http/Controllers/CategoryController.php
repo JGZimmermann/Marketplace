@@ -24,16 +24,16 @@ class CategoryController extends Controller
 
     public function delete($id)
     {
-        return $this->categoryService->deleteCategory($id);
+        return response()->json($this->categoryService->deleteCategory($id),204);
     }
 
     public function store(StoreCategoryRequest $request)
     {
-        return $this->categoryService->storeCategory($request->validated());
+        return response()->json($this->categoryService->storeCategory($request->validated()),201);
     }
 
     public function update(UpdateCategoryRequest $request, $id)
     {
-        return $this->categoryService->updateCategory($id,$request->validated());
+        return response()->json($this->categoryService->updateCategory($id,$request->validated()));
     }
 }

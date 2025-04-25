@@ -32,12 +32,16 @@ class DiscountService{
 
     public function updateDiscount($data,$id)
     {
-        return $this->discountRepository->updateDiscount($data, $this->getDiscountById($id));
+        $this->discountRepository->updateDiscount($data, $this->getDiscountById($id));
+        return $this->getDiscountById($id);
     }
 
     public function deleteDiscount($id)
     {
-        return $this->discountRepository->deleteDiscount($this->getDiscountById($id));
+        $this->discountRepository->deleteDiscount($this->getDiscountById($id));
+        return [
+            'message' => 'Desconto excluído com sucesso!'
+        ];
     }
 
     public function verifyDiscount($id)

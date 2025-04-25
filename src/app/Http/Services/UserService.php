@@ -35,9 +35,7 @@ class UserService
             $data = $this->hashPassword($data);
         }
         $this->userRepository->updateUser($user, $data);
-        return response()->json([
-            'message' => 'Usuário alterado com sucesso'
-        ]);
+        return $this->getUserById($id);
     }
 
     public function hashPassword($data)
@@ -63,9 +61,9 @@ class UserService
     {
         auth()->user()->tokens()->delete();
 
-        return response()->json([
+        return [
             'message' => 'Usuário deslogado'
-        ]);
+        ];
     }
 
     public function getLoggedUser()
@@ -78,8 +76,8 @@ class UserService
         $id = Auth::id();
         $user = $this->getUserById($id);
         $user->delete();
-        return response()->json([
+        return [
             'message' => 'Usuário deletado com sucesso!'
-        ],204);
+        ];
     }
 }

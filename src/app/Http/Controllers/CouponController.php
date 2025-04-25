@@ -29,11 +29,11 @@ class CouponController extends Controller
 
     public function update(UpdateCouponRequest $request, $id)
     {
-        return $this->couponService->updateCoupon($request->validated(),$id);
+        return response()->json($this->couponService->updateCoupon($request->validated(),$id));
     }
 
     public function delete($id)
     {
-        return $this->couponService->deleteCoupon($id);
+        return response()->json($this->couponService->deleteCoupon($id),204);
     }
 }

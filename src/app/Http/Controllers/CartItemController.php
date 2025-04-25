@@ -15,7 +15,7 @@ class CartItemController extends Controller
 
     public function index()
     {
-        return $this->cartItemService->getCartItem();
+        return response()->json($this->cartItemService->getCartItem());
     }
 
     public function store(StoreCartItemRequest $request)
@@ -25,7 +25,7 @@ class CartItemController extends Controller
 
     public function update(UpdateCartItemRequest $request)
     {
-        return response()->json($this->cartItemService->updateQuantity($request->validated()), 204);
+        return response()->json($this->cartItemService->updateQuantity($request->validated()), 200);
     }
 
     public function delete(DeleteCartItemRequest $request)
@@ -35,6 +35,6 @@ class CartItemController extends Controller
 
     public function clear()
     {
-        return $this->cartItemService->clearCart();;
+        return response()->json($this->cartItemService->clearCart(),204);
     }
 }
