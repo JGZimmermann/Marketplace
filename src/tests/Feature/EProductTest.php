@@ -2,13 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-class ProductTest extends TestCase
+class EProductTest extends TestCase
 {
     /** @test */
     public function get_products()
@@ -99,10 +100,18 @@ class ProductTest extends TestCase
             'password' => 'senha123',
             'role' => 'ADMIN'
         ]);
+        $file = UploadedFile::fake()->create('product.jpg', 100, 'image/jpeg');
 
+        Product::create([
+            "name" => "TesteTeste",
+            "price" => 10,
+            "stock" => 100.00,
+            "category_id" => 1,
+            "image_url" => $file
+        ]);
         Sanctum::actingAs($user);
 
-        $response = $this->delete('/api/products/1');
+        $response = $this->delete('/api/products/2');
 
         $response->assertStatus(204);
     }
@@ -181,7 +190,7 @@ class ProductTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->delete('/api/products/2');
+        $response = $this->delete('/api/products/1');
 
         $response->assertStatus(403);
     }

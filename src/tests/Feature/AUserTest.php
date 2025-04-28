@@ -6,7 +6,7 @@ use Tests\TestCase;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 
-class UserTest extends TestCase
+class AUserTest extends TestCase
 {
 
     /** @test */
@@ -69,7 +69,7 @@ class UserTest extends TestCase
         Sanctum::actingAs($user);
 
         $request = [
-            'name' => 'Tung Tung Sahur',
+            'name' => 'Teste Automático',
             'email' => 'tung@sahur.com',
             'password' => 'TungTung@123'
         ];

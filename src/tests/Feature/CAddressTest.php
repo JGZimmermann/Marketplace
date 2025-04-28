@@ -6,7 +6,7 @@ use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-class AddressTest extends TestCase
+class CAddressTest extends TestCase
 {
     /** @test */
     public function create_address()
@@ -92,8 +92,8 @@ class AddressTest extends TestCase
 
         Sanctum::actingAs($user);
 
-
-        $response = $this->delete('/api/addresses/1');
+        $this->create_address();
+        $response = $this->delete('/api/addresses/2');
 
         $response->assertStatus(204);
     }
@@ -151,7 +151,7 @@ class AddressTest extends TestCase
             'number' => "abc"
         ];
 
-        $response = $this->patchJson('/api/addresses/2', $request);
+        $response = $this->patchJson('/api/addresses/3', $request);
 
         $response->assertStatus(422);
     }
@@ -165,8 +165,8 @@ class AddressTest extends TestCase
 
         Sanctum::actingAs($user);
 
-
-        $response = $this->delete('/api/addresses/2');
+        $this->create_address();
+        $response = $this->delete('/api/addresses/3');
 
         $response->assertStatus(403);
     }

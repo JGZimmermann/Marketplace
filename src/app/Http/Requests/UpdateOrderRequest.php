@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateOrderRequest extends FormRequest
 {
@@ -16,7 +17,7 @@ class UpdateOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => 'required'
+            'status' => ['required', 'string', Rule::in(['PENDING','PROCESSING','SHIPPED','COMPLETED','CANCELED'])]
         ];
     }
 }
