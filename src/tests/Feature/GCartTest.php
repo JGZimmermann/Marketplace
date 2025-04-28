@@ -6,7 +6,7 @@ use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-class CartTest extends TestCase
+class GCartTest extends TestCase
 {
     protected $user;
 

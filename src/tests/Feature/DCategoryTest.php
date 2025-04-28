@@ -6,7 +6,7 @@ use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-class CategoryTest extends TestCase
+class DCategoryTest extends TestCase
 {
     /** @test */
     public function get_categories()
@@ -75,7 +75,8 @@ class CategoryTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->delete('/api/categories/1');
+        $this->create_category();
+        $response = $this->delete('/api/categories/2');
 
         $response->assertStatus(204);
     }
@@ -135,7 +136,7 @@ class CategoryTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->delete('/api/categories/2');
+        $response = $this->delete('/api/categories/3');
 
         $response->assertStatus(403);
     }

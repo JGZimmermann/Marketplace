@@ -2,11 +2,15 @@
 
 namespace Tests\Feature;
 
+use App\Http\Repositories\CartItemRepository;
+use App\Http\Repositories\CartRepository;
+use App\Models\CartItem;
+use App\Models\OrderItem;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-class OrderTest extends TestCase
+class HOrderTest extends TestCase
 {
     protected $user;
 
@@ -35,6 +39,14 @@ class OrderTest extends TestCase
         ]);
 
         Sanctum::actingAs($user);
+        $cart = new CartRepository();
+        $cart->storeCart();
+        CartItem::create([
+            'product_id' => 1,
+            'quantity' => 2,
+            'unitPrice' => 20,
+            'cart_id' => $cart->getCart()->id
+        ]);
         $request = [
             'address_id' => 1,
             'coupon_id' => 1
@@ -146,7 +158,7 @@ class OrderTest extends TestCase
         Sanctum::actingAs($user);
 
         $request = [
-            'status' => 123
+            'status' => 'INVALID_STATUS'
         ];
 
         $response = $this->patchJson('/api/orders/1', $request);

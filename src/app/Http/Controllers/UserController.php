@@ -45,6 +45,6 @@ class UserController extends Controller
 
     public function delete()
     {
-        return response()->json($this->userService->deleteUser());
+        return response()->json($this->userService->deleteUser(),204);
     }
 }

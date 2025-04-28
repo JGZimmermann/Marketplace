@@ -6,17 +6,17 @@ use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-class DiscountTest extends TestCase
+class FCouponTest extends TestCase
 {
     /** @test */
-    public function get_discounts()
+    public function get_coupons()
     {
-        $response = $this->getJson('/api/discounts');
+        $response = $this->getJson('/api/coupons');
         $response->assertStatus(200);
     }
 
     /** @test */
-    public function create_discount()
+    public function create_coupon()
     {
         $user = User::factory()->create([
             'password' => 'senha123',
@@ -26,30 +26,30 @@ class DiscountTest extends TestCase
         Sanctum::actingAs($user);
 
         $request = [
-            "description" => "Teste",
+            "code" => "Teste",
             "startDate" => "2025-05-25",
             "endDate" => "2025-05-26",
             "discountPercentage" => 10,
             "product_id" => 1
         ];
 
-        $response = $this->postJson('/api/discounts', $request);
+        $response = $this->postJson('/api/coupons', $request);
 
         $response->assertStatus(201)
             ->assertJson([
-                'description' => 'Teste'
+                'code' => 'Teste'
             ]);
     }
 
     /** @test */
-    public function get_discount_by_id()
+    public function get_coupon_by_id()
     {
-        $response = $this->getJson('/api/discounts/1');
+        $response = $this->getJson('/api/coupons/1');
         $response->assertStatus(200);
     }
 
     /** @test */
-    public function update_discount()
+    public function update_coupon()
     {
         $user = User::factory()->create([
             'password' => 'senha123',
@@ -59,16 +59,16 @@ class DiscountTest extends TestCase
         Sanctum::actingAs($user);
 
         $request = [
-            "description" => "Teste atualizado"
+            "code" => "Teste atualizado"
         ];
 
-        $response = $this->patchJson('/api/discounts/1', $request);
+        $response = $this->patchJson('/api/coupons/1', $request);
 
         $response->assertStatus(200);
     }
 
     /** @test */
-    public function delete_discount()
+    public function delete_coupon()
     {
         $user = User::factory()->create([
             'password' => 'senha123',
@@ -76,21 +76,22 @@ class DiscountTest extends TestCase
         ]);
 
         Sanctum::actingAs($user);
+        $this->create_coupon();
 
-        $response = $this->delete('/api/discounts/1');
+        $response = $this->delete('/api/coupons/2');
 
         $response->assertStatus(204);
     }
 
     /** @test */
-    public function fail_to_get_discount_by_id()
+    public function fail_to_get_coupon_by_id()
     {
-        $response = $this->getJson('/api/discounts/45');
+        $response = $this->getJson('/api/coupons/45');
         $response->assertStatus(404);
     }
 
     /** @test */
-    public function fail_to_create_discount()
+    public function fail_to_create_coupon()
     {
         $user = User::factory()->create([
             'password' => 'senha123',
@@ -104,15 +105,15 @@ class DiscountTest extends TestCase
             "description" => 0
         ];
 
-        $response = $this->postJson('/api/discounts', $request);
+        $response = $this->postJson('/api/coupons', $request);
 
         $response->assertStatus(422);
     }
 
     /** @test */
-    public function fail_to_update_discount()
+    public function fail_to_update_coupon()
     {
-        $this->create_discount();
+        $this->create_coupon();
         $user = User::factory()->create([
             'password' => 'senha123'
         ]);
@@ -120,16 +121,16 @@ class DiscountTest extends TestCase
         Sanctum::actingAs($user);
 
         $request = [
-            "description" => "Teste atualizado"
+            "code" => "Teste atualizado"
         ];
 
-        $response = $this->patchJson('/api/discounts/2', $request);
+        $response = $this->patchJson('/api/coupons/3', $request);
 
         $response->assertStatus(403);
     }
 
     /** @test */
-    public function fail_to_delete_discount()
+    public function fail_to_delete_coupon()
     {
         $user = User::factory()->create([
             'password' => 'senha123'
@@ -137,7 +138,7 @@ class DiscountTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $response = $this->delete('/api/discounts/2');
+        $response = $this->delete('/api/coupons/1');
 
         $response->assertStatus(403);
     }

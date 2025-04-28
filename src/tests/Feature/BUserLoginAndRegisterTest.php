@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 
-class UserLoginAndRegisterTest extends TestCase
+class BUserLoginAndRegisterTest extends TestCase
 {
     /** @test */
     public function create_user_successfully()
