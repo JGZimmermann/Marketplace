@@ -18,15 +18,6 @@ Este projeto tem como objetivo fornecer uma estrutura de **marketplace** utiliza
 - **Autenticação e Autorização**  
   Suporte a múltiplos papéis (administrador, vendedor, comprador) com login e permissões distintas.
 
-- **Painel Administrativo**  
-  Gerenciamento de usuários, categorias, produtos e visualização de estatísticas de vendas.
-
-- **Integração com Pagamentos**  
-  Estrutura preparada para integrar com gateways de pagamento e realizar transações seguras.
-
-- **Responsividade**  
-  Interface adaptável para dispositivos móveis e desktop, garantindo boa experiência ao usuário.
-
 ---
 
 ## Fluxo Geral
