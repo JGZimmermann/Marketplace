@@ -1,5 +1,19 @@
 # Laravel Marketplace
 
+## Módulos da matéria
+
+- Forms e Validação de Requisições
+
+- Roteamento e Ciclo de Vida de uma Request
+
+- Autenticação de Usuários
+
+- Migrações e Relacionamentos
+
+- Autorização com Policies e Testes de Feature(via middleware)
+
+- Upload de arquivos
+
 ## Objetivo
 
 Este projeto tem como objetivo fornecer uma estrutura de **marketplace** utilizando o framework **Laravel**, com ambiente de desenvolvimento configurado via **Docker**. Também inclui o acesso ao **phpMyAdmin** para gerenciamento do banco de dados.
