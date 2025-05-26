@@ -18,6 +18,9 @@ Este projeto tem como objetivo fornecer uma estrutura de **marketplace** utiliza
 - **Autenticação e Autorização**  
   Suporte a múltiplos papéis (administrador, vendedor, comprador) com login e permissões distintas.
 
+- **Sistema de cupom e desconto**  
+  Cupons e descontos para pedidos e produtos com data de validade e validação.
+
 ---
 
 ## Fluxo Geral
